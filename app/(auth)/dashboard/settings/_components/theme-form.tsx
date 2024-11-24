@@ -45,7 +45,7 @@ export function ThemeForm() {
 											<div className="h-2 w-full rounded-lg bg-[#ecedef]" />
 										</div>
 										<div className="flex items-center space-x-2 rounded-md bg-white p-2 shadow-sm">
-											<Sun className="h-4 w-4 text-[#ecedef] flex-shrink-0" />
+											<Sun className="h-4 w-4 text-muted-foreground flex-shrink-0" />
 											<div className="h-2 w-full rounded-lg bg-[#ecedef]" />
 										</div>
 									</div>
