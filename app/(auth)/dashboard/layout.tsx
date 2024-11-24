@@ -19,7 +19,7 @@ const Sidebar = () => {
 	const pathname = usePathname();
 
 	return (
-		<div className="hidden md:block h-full bg-muted/30">
+		<div className="hidden md:block h-screen bg-muted/30">
 			<div className="flex h-full flex-col justify-between border-r">
 				<div className="flex-grow">
 					<div className="flex items-center justify-start gap-2 p-6">
@@ -32,7 +32,6 @@ const Sidebar = () => {
 							alt="Boilerplate icon"
 							className="w-10 h-10"
 						/>
-						<h1 className="text-xl font-semibold">Boilerplate</h1>
 					</div>
 
 					<nav className="flex flex-col gap-2 p-4">
@@ -51,7 +50,7 @@ const Sidebar = () => {
 				</div>
 				<Separator className="w-full" />
 				<div className="p-4">
-					<div className="rounded-lg bg-muted p-4 border">
+					<div className="rounded-lg bg-muted p-4  border">
 						<h3 className="mb-2 font-semibold">Upgrade to Pro</h3>
 						<p className="mb-4 text-sm text-muted-foreground">
 							Unlock all features and get priority support.
@@ -70,9 +69,7 @@ const Sidebar = () => {
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
 	return (
 		<div className="flex h-screen overflow-hidden">
-			<div className="w-60">
-				<Sidebar />
-			</div>
+			<Sidebar />
 			<div className="flex-1 overflow-y-auto">
 				<Header />
 				<main className="p-6">{children}</main>
