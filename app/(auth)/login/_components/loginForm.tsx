@@ -71,7 +71,7 @@ export default function LoginForm() {
 					{/* Logo */}
 					<div className="flex items-center justify-center gap-2 mb-4 lg:mb-6">
 						<Image
-							src="/boilerplate.svg"
+							src="/boilerplate.png"
 							width={1000}
 							height={1000}
 							priority

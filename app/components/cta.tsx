@@ -6,7 +6,7 @@ export function CTA() {
 		<section className="container mx-auto px-4 py-24">
 			<div className="flex flex-col items-center justify-center rounded-2xl px-6 text-center  md:px-12">
 				<Image
-					src="/boilerplate.svg"
+					src="/boilerplate.png"
 					width={1000}
 					height={1000}
 					priority
@@ -24,7 +24,7 @@ export function CTA() {
 					leads.
 				</p>
 				<div className="mt-10">
-					<Button size="lg" variant="secondary" className="font-semibold">
+					<Button size="lg" variant="default" className="font-semibold">
 						Começar gratuitamente
 					</Button>
 				</div>

@@ -12,7 +12,7 @@ export default function Header() {
 				<div className="flex items-center gap-8">
 					<Link href="/" className="font-bold text-xl">
 						<Image
-							src="/boilerplate.svg"
+							src="/boilerplate.png"
 							width={1000}
 							height={1000}
 							priority
