@@ -1,3 +1,4 @@
+import { Separator } from "@/components/ui/separator";
 import { CTA } from "./components/cta";
 import { FAQ } from "./components/faq";
 import { Features } from "./components/features";
@@ -16,16 +17,17 @@ export default function Home() {
 			<Header />
 			<main className="w-full mx-auto">
 				<Hero />
-				<hr className="border-t border-muted w-full h-5" />
+				<Separator className="w-full" />
 				<HeroVideoDialogDemo />
+				<Separator className="w-full" />
 				<Features />
-				<hr className="border-t border-muted w-full h-5" />
+				<Separator className="w-full" />
 				<Pricing />
-				<hr className="border-t border-muted w-full h-5" />
+				<Separator className="w-full" />
 				<Testimonials />
-				<hr className="border-t border-muted w-full h-5" />
+				<Separator className="w-full" />
 				<FAQ />
-				<hr className="border-t border-muted w-full h-5" />
+				<Separator className="w-full" />
 				<CTA />
 			</main>
 			<Footer />
