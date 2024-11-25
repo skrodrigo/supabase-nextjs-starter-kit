@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { Toaster } from "@/components/ui/sonner";
 import { Box, Home, Settings, Users, Zap } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -73,6 +74,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 				<main className="p-6">{children}</main>
 				<MobileNav />
 			</div>
+			<Toaster />
 		</div>
 	);
 }

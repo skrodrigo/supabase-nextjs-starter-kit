@@ -4,16 +4,22 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { zodResolver } from "@hookform/resolvers/zod";
+
 import { ArrowLeft, HelpCircle } from "lucide-react";
+
 import Image from "next/image";
 import Link from "next/link";
+
 import { useRouter } from "next/navigation";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-const registerSchema = z
+const formSchema = z
 	.object({
+		name: z.string().min(2, "Nome deve ter no mínimo 2 caracteres"),
 		email: z.string().email("Email inválido"),
 		password: z.string().min(6, "Senha deve ter no mínimo 6 caracteres"),
 		confirmPassword: z.string().min(6, "Senha deve ter no mínimo 6 caracteres"),
@@ -23,21 +29,42 @@ const registerSchema = z
 		path: ["confirmPassword"],
 	});
 
-type RegisterFormData = z.infer<typeof registerSchema>;
-
 export default function RegisterForm() {
 	const router = useRouter();
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm<RegisterFormData>({
-		resolver: zodResolver(registerSchema),
+	const form = useForm<z.infer<typeof formSchema>>({
+		resolver: zodResolver(formSchema),
+		defaultValues: {
+			name: "",
+			email: "",
+			password: "",
+			confirmPassword: "",
+		},
 	});
 
-	const onSubmit = async (data: RegisterFormData) => {
-		console.log("Register attempt with:", data);
-		router.push("/dashboard");
+	const onSubmit = async (values: z.infer<typeof formSchema>) => {
+		try {
+			const supabase = createClientComponentClient();
+			const { email, password, name } = values;
+
+			const {
+				error,
+				data: { user },
+			} = await supabase.auth.signUp({
+				email,
+				password,
+				options: {
+					data: {
+						name,
+					},
+				},
+			});
+			if (user) {
+				form.reset();
+				router.push("/login");
+			}
+		} catch (error) {
+			console.error("CreateAccount", error);
+		}
 	};
 
 	return (
@@ -94,19 +121,37 @@ export default function RegisterForm() {
 							</CardTitle>
 						</CardHeader>
 						<CardContent className="p-0 mt-6 lg:mt-8">
-							<form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+							<form
+								onSubmit={form.handleSubmit(onSubmit)}
+								className="space-y-4"
+							>
+								<div className="space-y-2">
+									<Input
+										id="name"
+										type="text"
+										placeholder="Seu nome"
+										className="h-10 sm:h-12"
+										{...form.register("name")}
+									/>
+									{form.formState.errors.name && (
+										<p className="text-sm text-red-500">
+											{form.formState.errors.name.message}
+										</p>
+									)}
+								</div>
+
 								<div className="space-y-2">
 									<Input
 										id="email"
 										type="email"
 										placeholder="Seu e-mail"
 										className="h-10 sm:h-12"
-										{...register("email")}
+										{...form.register("email")}
 									/>
-									{errors.email && (
-										<span className="text-xs sm:text-sm text-destructive">
-											{errors.email.message}
-										</span>
+									{form.formState.errors.email && (
+										<p className="text-sm text-red-500">
+											{form.formState.errors.email.message}
+										</p>
 									)}
 								</div>
 
@@ -116,12 +161,12 @@ export default function RegisterForm() {
 										type="password"
 										placeholder="Sua senha"
 										className="h-10 sm:h-12"
-										{...register("password")}
+										{...form.register("password")}
 									/>
-									{errors.password && (
-										<span className="text-xs sm:text-sm text-destructive">
-											{errors.password.message}
-										</span>
+									{form.formState.errors.password && (
+										<p className="text-sm text-red-500">
+											{form.formState.errors.password.message}
+										</p>
 									)}
 								</div>
 
@@ -131,16 +176,20 @@ export default function RegisterForm() {
 										type="password"
 										placeholder="Confirme sua senha"
 										className="h-10 sm:h-12"
-										{...register("confirmPassword")}
+										{...form.register("confirmPassword")}
 									/>
-									{errors.confirmPassword && (
-										<span className="text-xs sm:text-sm text-destructive">
-											{errors.confirmPassword.message}
-										</span>
+									{form.formState.errors.confirmPassword && (
+										<p className="text-sm text-red-500">
+											{form.formState.errors.confirmPassword.message}
+										</p>
 									)}
 								</div>
 
-								<Button type="submit" className="w-full h-10 sm:h-12">
+								<Button
+									type="submit"
+									className="w-full h-10 sm:h-12"
+									disabled={form.formState.isSubmitting}
+								>
 									Criar conta
 								</Button>
 

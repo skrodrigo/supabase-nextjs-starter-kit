@@ -4,34 +4,59 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { zodResolver } from "@hookform/resolvers/zod";
+
 import { ArrowLeft, HelpCircle } from "lucide-react";
+
 import Image from "next/image";
 import Link from "next/link";
+
 import { useRouter } from "next/navigation";
+
+import { supabase } from "@/lib/supabaseClient";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-const loginSchema = z.object({
+const formSchema = z.object({
 	email: z.string().email("Email inválido"),
 	password: z.string().min(6, "Senha deve ter no mínimo 6 caracteres"),
 });
 
-type LoginFormData = z.infer<typeof loginSchema>;
-
 export default function LoginForm() {
 	const router = useRouter();
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm<LoginFormData>({
-		resolver: zodResolver(loginSchema),
+
+	const form = useForm<z.infer<typeof formSchema>>({
+		resolver: zodResolver(formSchema),
+		defaultValues: {
+			email: "",
+			password: "",
+		},
 	});
 
-	const onSubmit = async (data: LoginFormData) => {
-		console.log("Login attempt with:", data);
-		router.push("/dashboard");
+	const onSubmit = async (values: z.infer<typeof formSchema>) => {
+		try {
+			const { email, password } = values;
+
+			const response = await fetch("/api/auth/login", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ email, password }),
+			});
+
+			const data = await response.json();
+
+			if (response.ok) {
+				console.log("Login bem-sucedido:", data);
+				form.reset();
+				router.push("/dashboard");
+			} else {
+				console.error("Erro no login:", data.message);
+			}
+		} catch (error) {
+			console.error("Erro inesperado:", error);
+		}
 	};
 
 	return (
@@ -88,19 +113,22 @@ export default function LoginForm() {
 							</CardTitle>
 						</CardHeader>
 						<CardContent className="p-0 mt-6 lg:mt-8">
-							<form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+							<form
+								onSubmit={form.handleSubmit(onSubmit)}
+								className="space-y-4"
+							>
 								<div className="space-y-2">
 									<Input
 										id="email"
 										type="email"
 										placeholder="Seu e-mail"
 										className="h-10 sm:h-12"
-										{...register("email")}
+										{...form.register("email")}
 									/>
-									{errors.email && (
-										<span className="text-xs sm:text-sm text-destructive">
-											{errors.email.message}
-										</span>
+									{form.formState.errors.email && (
+										<p className="text-sm text-red-500">
+											{form.formState.errors.email.message}
+										</p>
 									)}
 								</div>
 
@@ -110,12 +138,12 @@ export default function LoginForm() {
 										type="password"
 										placeholder="Sua senha"
 										className="h-10 sm:h-12"
-										{...register("password")}
+										{...form.register("password")}
 									/>
-									{errors.password && (
-										<span className="text-xs sm:text-sm text-destructive">
-											{errors.password.message}
-										</span>
+									{form.formState.errors.password && (
+										<p className="text-sm text-red-500">
+											{form.formState.errors.password.message}
+										</p>
 									)}
 								</div>
 

@@ -19,6 +19,7 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { supabase } from "@/lib/supabaseClient";
 import {
 	ArrowUpRight,
 	Home,
@@ -39,6 +40,19 @@ export function Header() {
 	});
 
 	const [open, setOpen] = useState(false);
+
+	const handleLogout = async () => {
+		const response = await fetch("/api/auth/logout", {
+			method: "DELETE",
+		});
+
+		if (!response.ok) {
+			console.error("Logout failed", await response.json());
+			return;
+		}
+
+		console.log("Logout successful");
+	};
 
 	useEffect(() => {
 		const down = (e: KeyboardEvent) => {
@@ -135,7 +149,7 @@ export function Header() {
 							<ArrowUpRight className="ml-auto h-4 w-4" />
 						</DropdownMenuItem>
 						<DropdownMenuSeparator />
-						<DropdownMenuItem>
+						<DropdownMenuItem onClick={handleLogout}>
 							<LogOut className="mr-2 h-4 w-4" />
 							Log out
 						</DropdownMenuItem>

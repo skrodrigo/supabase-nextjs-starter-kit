@@ -3,7 +3,7 @@ export const metadata = {
 	description: "A boilerplate project with landing, auth, and dashboard",
 };
 
-export default function Dashboard() {
+export default async function Dashboard() {
 	return (
 		<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">Content</div>
 	);
