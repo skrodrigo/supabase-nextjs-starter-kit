@@ -1,4 +1,4 @@
-import RegisterForm from "./_components/registerForm";
+import RegisterForm from "./_components/register-form";
 
 export const metadata = {
 	title: "Boilerplate | Registro",

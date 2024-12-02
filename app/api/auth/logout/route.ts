@@ -1,6 +1,6 @@
 "use server";
 
-import { supabase } from "@/lib/supabaseClient";
+import { supabase } from "@/lib/supabase-client";
 import { serialize } from "cookie";
 
 export async function POST(req: Request) {

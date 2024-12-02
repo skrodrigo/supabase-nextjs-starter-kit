@@ -6,10 +6,10 @@ import { Features } from "./components/features";
 import { Footer } from "./components/footer";
 import Header from "./components/header";
 import { Hero } from "./components/hero";
-import { HeroVideoDialogDemo } from "./components/heroVideoDialog";
+import { HeroVideoDialogDemo } from "./components/hero-video-dialog";
 import { Pricing } from "./components/pricing";
 import { Testimonials } from "./components/testimonials";
-import { TopBanner } from "./components/topBanner";
+import { TopBanner } from "./components/top-banner";
 
 export default function Home() {
 	return (

@@ -1,5 +1,5 @@
 {
-	"name": "boiterplate",
+	"name": "boilerplate",
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
@@ -23,12 +23,12 @@
 		"@radix-ui/react-switch": "^1.1.1",
 		"@radix-ui/react-tooltip": "^1.1.4",
 		"@supabase/auth-helpers-nextjs": "^0.10.0",
-		"@supabase/ssr": "^0.5.2",
 		"@supabase/supabase-js": "^2.46.1",
 		"class-variance-authority": "^0.7.0",
 		"clsx": "^2.1.1",
 		"cmdk": "^1.0.0",
-		"framer-motion": "^11.11.17",
+		"cookie": "^1.0.2",
+		"framer-motion": "^11.12.0",
 		"lucide-react": "^0.460.0",
 		"next": "14.2.18",
 		"next-themes": "^0.4.3",

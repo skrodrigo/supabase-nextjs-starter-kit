@@ -12,57 +12,77 @@ import Link from "next/link";
 
 import { useRouter } from "next/navigation";
 
-import { supabase } from "@/lib/supabaseClient";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-const formSchema = z.object({
-	email: z.string().email("Email inválido"),
-	password: z.string().min(6, "Senha deve ter no mínimo 6 caracteres"),
-});
+const formSchema = z
+	.object({
+		name: z.string().min(2, "Nome deve ter no mínimo 2 caracteres"),
+		email: z.string().email("Email inválido"),
+		password: z.string().min(6, "Senha deve ter no mínimo 6 caracteres"),
+		confirmPassword: z.string().min(6, "Senha deve ter no mínimo 6 caracteres"),
+	})
+	.refine((data) => data.password === data.confirmPassword, {
+		message: "As senhas não coincidem",
+		path: ["confirmPassword"],
+	});
 
-export default function LoginForm() {
+export default function RegisterForm() {
 	const router = useRouter();
-
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
+			name: "",
 			email: "",
 			password: "",
+			confirmPassword: "",
 		},
 	});
 
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
 		try {
-			const { email, password } = values;
-
-			const response = await fetch("/api/auth/login", {
+			const response = await fetch("/api/auth/register", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
 				},
-				body: JSON.stringify({ email, password }),
+				body: JSON.stringify(values),
 			});
 
 			const data = await response.json();
 
-			if (response.ok) {
-				console.log("Login bem-sucedido:", data);
-				form.reset();
-				router.push("/dashboard");
-			} else {
-				console.error("Erro no login:", data.message);
+			if (!response.ok) {
+				if (data.errors) {
+					// Set field-specific errors
+					Object.keys(data.errors).forEach((key) => {
+						if (data.errors[key]) {
+							form.setError(key as any, {
+								type: "manual",
+								message: data.errors[key],
+							});
+						}
+					});
+					return;
+				}
+				throw new Error(data.message || "Registration failed");
 			}
+
+			form.reset();
+			router.push("/login");
 		} catch (error) {
-			console.error("Erro inesperado:", error);
+			console.error("CreateAccount", error);
+			form.setError("root", {
+				type: "manual",
+				message: error instanceof Error ? error.message : "Registration failed",
+			});
 		}
 	};
 
 	return (
 		<div className="flex flex-col lg:flex-row min-h-screen">
 			{/* Right side */}
-			<div className="hidden lg:flex lg:flex-1 bg-primary relative  rounded-e-3xl">
+			<div className="hidden lg:flex lg:flex-1 bg-primary relative rounded-e-3xl">
 				<div className="absolute inset-0 p-6 lg:p-12 flex items-center">
 					<p className="text-primary-foreground text-2xl lg:text-3xl font-light leading-relaxed">
 						Transforme qualquer link compartilhado em uma oportunidade
@@ -106,10 +126,10 @@ export default function LoginForm() {
 						/>
 					</div>
 
-					<Card className="border-0 shadow-none items-center justify-center	 flex flex-col">
+					<Card className="border-0 shadow-none items-center justify-center flex flex-col">
 						<CardHeader className="p-0">
 							<CardTitle className="text-sm sm:text-base font-normal text-muted-foreground">
-								Digite seu e-mail abaixo para continuar
+								Crie sua conta para continuar
 							</CardTitle>
 						</CardHeader>
 						<CardContent className="p-0 mt-6 lg:mt-8">
@@ -117,6 +137,21 @@ export default function LoginForm() {
 								onSubmit={form.handleSubmit(onSubmit)}
 								className="space-y-4"
 							>
+								<div className="space-y-2">
+									<Input
+										id="name"
+										type="text"
+										placeholder="Seu nome"
+										className="h-10 sm:h-12"
+										{...form.register("name")}
+									/>
+									{form.formState.errors.name && (
+										<p className="text-sm text-red-500">
+											{form.formState.errors.name.message}
+										</p>
+									)}
+								</div>
+
 								<div className="space-y-2">
 									<Input
 										id="email"
@@ -147,8 +182,27 @@ export default function LoginForm() {
 									)}
 								</div>
 
-								<Button type="submit" className="w-full h-10 sm:h-12">
-									Login
+								<div className="space-y-2">
+									<Input
+										id="confirmPassword"
+										type="password"
+										placeholder="Confirme sua senha"
+										className="h-10 sm:h-12"
+										{...form.register("confirmPassword")}
+									/>
+									{form.formState.errors.confirmPassword && (
+										<p className="text-sm text-red-500">
+											{form.formState.errors.confirmPassword.message}
+										</p>
+									)}
+								</div>
+
+								<Button
+									type="submit"
+									className="w-full h-10 sm:h-12"
+									disabled={form.formState.isSubmitting}
+								>
+									Criar conta
 								</Button>
 
 								<div className="relative my-6 lg:my-8">
@@ -156,6 +210,14 @@ export default function LoginForm() {
 										<Separator className="w-full" />
 									</div>
 								</div>
+
+								<p className="text-xs text-center text-muted-foreground pt-4">
+									Já tem uma conta?{" "}
+									<Link href="/login" className="text-primary hover:underline">
+										Faça login
+									</Link>
+								</p>
+
 								<p className="text-xs text-center text-muted-foreground pt-4 lg:mt-8">
 									Ao se inscrever, você concorda com os{" "}
 									<Link href="#" className="text-primary hover:underline">
@@ -169,10 +231,6 @@ export default function LoginForm() {
 							</form>
 						</CardContent>
 					</Card>
-
-					<p className="text-xs text-center text-muted-foreground mt-6 lg:mt-8">
-						© 2024 Use Link. All rights reserved.
-					</p>
 				</div>
 			</div>
 		</div>

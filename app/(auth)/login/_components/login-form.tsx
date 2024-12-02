@@ -5,71 +5,80 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+
 import { ArrowLeft, HelpCircle } from "lucide-react";
 
 import Image from "next/image";
 import Link from "next/link";
-
 import { useRouter } from "next/navigation";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+
 import { z } from "zod";
 
-const formSchema = z
-	.object({
-		name: z.string().min(2, "Nome deve ter no mínimo 2 caracteres"),
-		email: z.string().email("Email inválido"),
-		password: z.string().min(6, "Senha deve ter no mínimo 6 caracteres"),
-		confirmPassword: z.string().min(6, "Senha deve ter no mínimo 6 caracteres"),
-	})
-	.refine((data) => data.password === data.confirmPassword, {
-		message: "As senhas não coincidem",
-		path: ["confirmPassword"],
-	});
+const formSchema = z.object({
+	email: z.string().email("Email inválido"),
+	password: z.string().min(6, "Senha deve ter no mínimo 6 caracteres"),
+});
 
-export default function RegisterForm() {
+export default function LoginForm() {
 	const router = useRouter();
+	const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			name: "",
 			email: "",
 			password: "",
-			confirmPassword: "",
 		},
 	});
 
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
 		try {
-			const supabase = createClientComponentClient();
-			const { email, password, name } = values;
+			const { email, password } = values;
+			setErrorMessage(null);
 
-			const {
-				error,
-				data: { user },
-			} = await supabase.auth.signUp({
-				email,
-				password,
-				options: {
-					data: {
-						name,
-					},
+			const response = await fetch("/api/auth/login", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
 				},
+				body: JSON.stringify({ email, password }),
 			});
-			if (user) {
-				form.reset();
-				router.push("/login");
+
+			const data = await response.json();
+
+			if (!response.ok) {
+				if (data.error === "User not found") {
+					setErrorMessage("Usuário não cadastrado. Por favor, registre-se.");
+					return;
+				}
+
+				if (data.error) {
+					if (data.error.toLowerCase().includes("email")) {
+						form.setError("email", { type: "manual", message: data.error });
+					} else if (data.error.toLowerCase().includes("password")) {
+						form.setError("password", { type: "manual", message: data.error });
+					} else {
+						setErrorMessage(data.error);
+					}
+					return;
+				}
+				throw new Error(data.message || "Login failed");
 			}
+
+			form.reset();
+			router.push("/dashboard");
 		} catch (error) {
-			console.error("CreateAccount", error);
+			console.error("Login error:", error);
+			setErrorMessage(error instanceof Error ? error.message : "Login failed");
 		}
 	};
 
 	return (
 		<div className="flex flex-col lg:flex-row min-h-screen">
-			{/* Right side */}
 			<div className="hidden lg:flex lg:flex-1 bg-primary relative rounded-e-3xl">
 				<div className="absolute inset-0 p-6 lg:p-12 flex items-center">
 					<p className="text-primary-foreground text-2xl lg:text-3xl font-light leading-relaxed">
@@ -80,10 +89,8 @@ export default function RegisterForm() {
 				</div>
 			</div>
 
-			{/* Left side */}
 			<div className="flex-1 flex items-center justify-center bg-background p-4 sm:p-6 lg:p-8">
 				<div className="w-full max-w-[440px]">
-					{/* Header */}
 					<div className="flex justify-between items-center mb-8 lg:mb-12">
 						<Button
 							variant="ghost"
@@ -101,7 +108,6 @@ export default function RegisterForm() {
 						</Button>
 					</div>
 
-					{/* Logo */}
 					<div className="flex items-center justify-center gap-2 mb-4 lg:mb-6">
 						<Image
 							src="/boilerplate.png"
@@ -117,29 +123,14 @@ export default function RegisterForm() {
 					<Card className="border-0 shadow-none items-center justify-center flex flex-col">
 						<CardHeader className="p-0">
 							<CardTitle className="text-sm sm:text-base font-normal text-muted-foreground">
-								Crie sua conta para continuar
+								Digite seu e-mail abaixo para continuar
 							</CardTitle>
 						</CardHeader>
-						<CardContent className="p-0 mt-6 lg:mt-8">
+						<CardContent className="p-0 mt-6 lg:mt-8 w-full">
 							<form
 								onSubmit={form.handleSubmit(onSubmit)}
 								className="space-y-4"
 							>
-								<div className="space-y-2">
-									<Input
-										id="name"
-										type="text"
-										placeholder="Seu nome"
-										className="h-10 sm:h-12"
-										{...form.register("name")}
-									/>
-									{form.formState.errors.name && (
-										<p className="text-sm text-red-500">
-											{form.formState.errors.name.message}
-										</p>
-									)}
-								</div>
-
 								<div className="space-y-2">
 									<Input
 										id="email"
@@ -170,42 +161,17 @@ export default function RegisterForm() {
 									)}
 								</div>
 
-								<div className="space-y-2">
-									<Input
-										id="confirmPassword"
-										type="password"
-										placeholder="Confirme sua senha"
-										className="h-10 sm:h-12"
-										{...form.register("confirmPassword")}
-									/>
-									{form.formState.errors.confirmPassword && (
-										<p className="text-sm text-red-500">
-											{form.formState.errors.confirmPassword.message}
-										</p>
-									)}
-								</div>
-
-								<Button
-									type="submit"
-									className="w-full h-10 sm:h-12"
-									disabled={form.formState.isSubmitting}
-								>
-									Criar conta
+								<Button type="submit" className="w-full h-10 sm:h-12">
+									Login
 								</Button>
-
+								{errorMessage && (
+								<p className="text-sm text-red-500 mb-4 text-center">{errorMessage}</p>
+							)}
 								<div className="relative my-6 lg:my-8">
 									<div className="absolute inset-0 flex items-center">
 										<Separator className="w-full" />
 									</div>
 								</div>
-
-								<p className="text-xs text-center text-muted-foreground pt-4">
-									Já tem uma conta?{" "}
-									<Link href="/login" className="text-primary hover:underline">
-										Faça login
-									</Link>
-								</p>
-
 								<p className="text-xs text-center text-muted-foreground pt-4 lg:mt-8">
 									Ao se inscrever, você concorda com os{" "}
 									<Link href="#" className="text-primary hover:underline">
@@ -219,6 +185,10 @@ export default function RegisterForm() {
 							</form>
 						</CardContent>
 					</Card>
+
+					<p className="text-xs text-center text-muted-foreground mt-6 lg:mt-8">
+						2024 Use Link. All rights reserved.
+					</p>
 				</div>
 			</div>
 		</div>

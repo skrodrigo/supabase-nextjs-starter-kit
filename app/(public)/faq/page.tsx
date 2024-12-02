@@ -1,7 +1,7 @@
 import { FAQ } from "@/app/components/faq";
 import { Footer } from "@/app/components/footer";
 import Header from "@/app/components/header";
-import { TopBanner } from "@/app/components/topBanner";
+import { TopBanner } from "@/app/components/top-banner";
 import { SubHeader } from "../_components/sub-header";
 
 export const metadata = {
