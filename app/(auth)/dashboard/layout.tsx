@@ -36,9 +36,12 @@ const Sidebar = () => {
 							<Link key={item.href} href={item.href} passHref>
 								<Button
 									variant={pathname === item.href ? "secondary" : "ghost"}
-									className="w-full justify-start border "
+									className="w-full justify-start items-center"
 								>
-									<item.icon className="mr-2 h-4 w-4" />
+									<div className="border rounded-lg border-muted-foreground p-1">
+										<item.icon className="h-4 w-4 rounded-sm" />
+									</div>
+
 									{item.label}
 								</Button>
 							</Link>
