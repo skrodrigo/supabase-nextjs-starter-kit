@@ -43,7 +43,7 @@ export function Header() {
 
 	const handleLogout = async () => {
 		const response = await fetch("/api/auth/logout", {
-			method: "DELETE",
+			method: "POST",
 		});
 
 		if (!response.ok) {
@@ -51,6 +51,7 @@ export function Header() {
 			return;
 		}
 
+		window.location.reload();
 		console.log("Logout successful");
 	};
 

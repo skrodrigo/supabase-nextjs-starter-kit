@@ -25,7 +25,7 @@ export default function SettingsPage() {
 						Personalize a aparência do seu painel.
 					</span>
 				</div>
-				<div className="pb-20">
+				<div className="">
 					<ThemeForm />
 				</div>
 			</div>

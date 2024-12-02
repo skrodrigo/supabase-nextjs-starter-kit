@@ -2,9 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Toaster } from "@/components/ui/sonner";
-import { Box, Home, Settings, Users, Zap } from "lucide-react";
-import Image from "next/image";
+import { Box, Home, Zap } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Header } from "./_components/header";
@@ -67,14 +65,17 @@ const Sidebar = () => {
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
 	return (
-		<div className="flex h-screen overflow-hidden">
-			<Sidebar />
-			<div className="flex-1 overflow-y-auto">
-				<Header />
-				<main className="p-6">{children}</main>
-				<MobileNav />
+		<div className="flex h-screen">
+			<aside className="flex-none">
+				<Sidebar />
+			</aside>
+			<div className="flex flex-col flex-1">
+				<header className="flex-none">
+					<Header />
+				</header>
+				<main className="flex-1 p-6 overflow-auto">{children}</main>
 			</div>
-			<Toaster />
+			<MobileNav />
 		</div>
 	);
 }
