@@ -1,6 +1,6 @@
 "use server";
 
-import { supabase } from "@/lib/supabase-client"; // Importe sua configuração do Supabase
+import { supabase } from "@/lib/supabase/supabase-client"; // Importe sua configuração do Supabase
 import { serialize } from "cookie";
 
 export async function POST(req: Request) {

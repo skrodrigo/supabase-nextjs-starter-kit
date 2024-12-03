@@ -27,10 +27,14 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 const sidebarItems = [{ icon: Home, label: "Home", href: "/dashboard" }];
 
 export function Header() {
+
+	const router = useRouter();
+
 	const [user] = useState({
 		name: "Rodrigo Carvalho",
 		email: "rodrigoa0987@gmail.com",
@@ -48,7 +52,7 @@ export function Header() {
 			return;
 		}
 
-		window.location.reload();
+		router.refresh();
 		console.log("Logout successful");
 	};
 
@@ -68,7 +72,7 @@ export function Header() {
 			<div className="flex h-16 items-center px-4 justify-end gap-4">
 				<Button
 					variant="outline"
-					className="w-[260px] justify-start text-sm text-muted-foreground"
+					className="w-[260px] justify-start text-sm text-muted-foreground bg-muted/80"
 					onClick={() => setOpen(true)}
 				>
 					<Search className="mr-2 h-4 w-4" />

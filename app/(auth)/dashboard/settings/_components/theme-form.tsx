@@ -20,7 +20,7 @@ export function ThemeForm() {
 	}
 
 	return (
-		<Card className="bg-muted/80 ">
+		<Card className="bg-muted/80 mb-20 md:mb-0">
 			<CardContent className="p-4 sm:p-6 md:p-8">
 				<div className="space-y-4 md:space-y-6">
 					<div className="space-y-2">

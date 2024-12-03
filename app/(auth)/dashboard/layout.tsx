@@ -10,7 +10,6 @@ import { MobileNav } from "./_components/mobile-nav";
 
 const sidebarItems = [
 	{ icon: Home, label: "Dashboard", href: "/dashboard" },
-
 	{ icon: Box, label: "Projects", href: "/dashboard/projects" },
 ];
 
@@ -22,7 +21,7 @@ const Sidebar = () => {
 	const pathname = usePathname();
 
 	return (
-		<div className="hidden md:block h-screen bg-muted/30 w-52">
+		<div className="hidden md:block h-screen bg-muted/5 w-52 fixed left-0 top-0 overflow-y-auto">
 			<div className="flex h-full flex-col justify-between border-r">
 				<div className="flex-grow">
 					<div className="flex items-center justify-start gap-2 p-6">
@@ -41,7 +40,6 @@ const Sidebar = () => {
 									<div className="border rounded-lg border-muted-foreground p-1">
 										<item.icon className="h-4 w-4 rounded-sm" />
 									</div>
-
 									{item.label}
 								</Button>
 							</Link>
@@ -72,11 +70,11 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 			<aside className="flex-none">
 				<Sidebar />
 			</aside>
-			<div className="flex flex-col flex-1">
-				<header className="flex-none">
+			<div className="flex flex-col flex-1 md:ml-52">
+				<header className="flex-none sticky top-0 z-10 bg-background">
 					<Header />
 				</header>
-				<main className="flex-1 p-6 overflow-auto">{children}</main>
+				<main className="flex-1 p-6">{children}</main>
 			</div>
 			<MobileNav />
 		</div>
