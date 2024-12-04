@@ -1,31 +1,46 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { supabaseServer } from "@/lib/supabase/supabase-server";
-import { getUserCurrentPlan } from "@/services/stripe";
+import { createClient } from "@/lib/supabase/supabase-server";
+import { cookies } from "next/headers";
 import { createCheckoutSessionAction } from "../actions";
 
 interface UsageMetric {
 	current: number;
 	max: number;
 	current_plan: string;
-	next_due_date: string;
 }
 
 const usageMetric: UsageMetric = {
-	current: 1,
-	max: 5,
-	current_plan: "Free",
-	next_due_date: "2024-01-01",
+	current: 10,
+	max: 50,
+	current_plan: "free",
 };
 
 export async function PricingForm() {
-	// const supabase = supabaseServer();
+	const cookieStore = cookies();
+	const supabase = createClient(cookieStore);
+	const accessToken = cookieStore.get("sb-access-token")?.value;
 
-	// const {
-	// 	data: { session },
-	// } = await supabase.auth.getSession();
-	// const plan = await getUserCurrentPlan(session?.user.id as string);
+	if (!accessToken) {
+		console.error("Token não encontrado");
+		throw new Error("Usuário não autenticado");
+	}
+
+	const {
+		data: { user },
+		error,
+	} = await supabase.auth.getUser(accessToken);
+
+	if (error) {
+		console.error("Erro ao obter usuário:", error);
+		throw new Error("Erro ao obter dados do usuário");
+	}
+
+	if (!user) {
+		console.error("Usuário não encontrado");
+		throw new Error("Usuário não encontrado");
+	}
 
 	return (
 		<form action={createCheckoutSessionAction}>

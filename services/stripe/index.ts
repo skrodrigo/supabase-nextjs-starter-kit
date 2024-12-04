@@ -55,8 +55,9 @@ export const createCheckoutSession = async (
 			email: userEmail,
 		});
 
+		// If user has an existing subscription, create a billing portal session
 		const subscription = await stripe.subscriptionItems.list({
-			subscription: userStripeSubscriptionId,
+			subscription: userStripeSubscriptionId as string,
 			limit: 1,
 		});
 
@@ -72,7 +73,7 @@ export const createCheckoutSession = async (
 					},
 				},
 				subscription_update_confirm: {
-					subscription: userStripeSubscriptionId,
+					subscription: userStripeSubscriptionId as string,
 					items: [
 						{
 							id: subscription.data[0].id,
@@ -86,6 +87,7 @@ export const createCheckoutSession = async (
 
 		return {
 			url: session.url,
+			subscription,
 		};
 	} catch (error) {
 		console.error(error);
@@ -134,70 +136,70 @@ export const handleProcessWebhookUpdatedSubscription = async (event: {
 	});
 };
 
-type Plan = {
-	priceId: string;
-	quota: {
-		TASKS: number;
-	};
-};
+// type Plan = {
+// 	priceId: string;
+// 	quota: {
+// 		TASKS: number;
+// 	};
+// };
 
-type Plans = {
-	[key: string]: Plan;
-};
+// type Plans = {
+// 	[key: string]: Plan;
+// };
 
-export const getPlanByPrice = (priceId: string) => {
-	const plans: Plans = config.stripe.plans;
+// export const getPlanByPrice = (priceId: string) => {
+// 	const plans: Plans = config.stripe.plans;
 
-	const planKey = Object.keys(plans).find(
-		(key) => plans[key].priceId === priceId,
-	) as keyof Plans | undefined;
+// 	const planKey = Object.keys(plans).find(
+// 		(key) => plans[key].priceId === priceId,
+// 	) as keyof Plans | undefined;
 
-	const plan = planKey ? plans[planKey] : null;
+// 	const plan = planKey ? plans[planKey] : null;
 
-	if (!plan) {
-		throw new Error(`Plan not found for priceId: ${priceId}`);
-	}
+// 	if (!plan) {
+// 		throw new Error(`Plan not found for priceId: ${priceId}`);
+// 	}
 
-	return {
-		name: planKey,
-		quota: plan.quota,
-	};
-};
+// 	return {
+// 		name: planKey,
+// 		quota: plan.quota,
+// 	};
+// };
 
-export const getUserCurrentPlan = async (userId: string) => {
-	const user = await prisma.user.findUnique({
-		where: {
-			id: userId,
-		},
-		select: {
-			stripePriceId: true,
-		},
-	});
+// export const getUserCurrentPlan = async (userId: string) => {
+// 	const user = await prisma.user.findUnique({
+// 		where: {
+// 			id: userId,
+// 		},
+// 		select: {
+// 			stripePriceId: true,
+// 		},
+// 	});
 
-	if (!user || !user.stripePriceId) {
-		throw new Error("User or user stripePriceId not found");
-	}
+// 	if (!user || !user.stripePriceId) {
+// 		throw new Error("User or user stripePriceId not found");
+// 	}
 
-	const plan = getPlanByPrice(user.stripePriceId);
+// 	const plan = getPlanByPrice(user.stripePriceId);
 
-	const tasksCount = await prisma.request.count({
-		where: {
-			userId,
-		},
-	});
+// 	const tasksCount = await prisma.request.count({
+// 		where: {
+// 			userId,
+// 		},
+// 	});
 
-	const availableTasks = plan.quota.TASKS;
-	const currentTasks = tasksCount;
-	const usage = (currentTasks / availableTasks) * 100;
+// 	const availableTasks = plan.quota.TASKS;
+// 	const currentTasks = tasksCount;
+// 	const usage = (currentTasks / availableTasks) * 100;
 
-	return {
-		name: plan.name,
-		quota: {
-			TASKS: {
-				available: availableTasks,
-				current: currentTasks,
-				usage,
-			},
-		},
-	};
-};
+// 	return {
+// 		name: plan.name,
+// 		quota: {
+// 			TASKS: {
+// 				available: availableTasks,
+// 				current: currentTasks,
+// 				usage,
+// 			},
+// 		},
+// 	};
+// };

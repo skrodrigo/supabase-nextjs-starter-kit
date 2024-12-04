@@ -54,15 +54,6 @@ export default function RegisterForm() {
 
 			if (!response.ok) {
 				if (data.errors) {
-					// Set field-specific errors
-					Object.keys(data.errors).forEach((key) => {
-						if (data.errors[key]) {
-							form.setError(key as any, {
-								type: "manual",
-								message: data.errors[key],
-							});
-						}
-					});
 					return;
 				}
 				throw new Error(data.message || "Registration failed");

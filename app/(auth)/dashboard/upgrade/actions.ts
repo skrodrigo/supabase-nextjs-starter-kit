@@ -1,27 +1,51 @@
 "use server";
 
-import { supabaseServer } from "@/lib/supabase/supabase-server";
+import { createClient } from "@/lib/supabase/supabase-server";
 import { createCheckoutSession } from "@/services/stripe";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export async function createCheckoutSessionAction(): Promise<void> {
-	const supabase = supabaseServer();
+	try {
+		const cookieStore = cookies();
+		const supabase = createClient(cookieStore);
+		const accessToken = cookieStore.get("sb-access-token")?.value;
 
-	const {
-		data: { session },
-	} = await supabase.auth.getSession();
+		if (!accessToken) {
+			console.error("Token não encontrado");
+			throw new Error("Usuário não autenticado");
+		}
 
-	if (!session?.user.id) throw new Error("Usuário não autorizado");
+		const {
+			data: { user },
+			error,
+		} = await supabase.auth.getUser(accessToken);
 
-	const checkoutSession = await createCheckoutSession(
-		session.user.id as string,
-		session.user.email as string,
-		session.user.stripeSubscriptionId as string,
-	);
+		if (error) {
+			console.error("Erro ao obter usuário:", error);
+			throw new Error("Erro ao obter dados do usuário");
+		}
 
-	if (!checkoutSession?.url) {
-		throw new Error("Erro ao gerar URL da sessão de checkout");
+		if (!user) {
+			console.error("Usuário não encontrado");
+			throw new Error("Usuário não encontrado");
+		}
+
+		const checkoutSession = await createCheckoutSession(
+			user.id,
+			user.email as string,
+			user.stripeSubscriptionId as string,
+		);
+
+		if (!checkoutSession?.url) {
+			console.error("URL da sessão de checkout não gerada");
+			throw new Error("Erro ao gerar URL da sessão de checkout");
+		}
+
+		console.log("URL da sessão de checkout gerada:", checkoutSession.url);
+		redirect(checkoutSession.url);
+	} catch (error) {
+		console.error("Erro na action:", error);
+		throw error;
 	}
-
-	redirect(checkoutSession.url);
 }
