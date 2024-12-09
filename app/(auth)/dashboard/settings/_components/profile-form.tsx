@@ -2,10 +2,7 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import {
-	Card,
-	CardContent,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
@@ -31,12 +28,10 @@ export function ProfileForm() {
 		},
 	});
 
-	function onSubmit(data: ProfileFormValues) {
-		console.log(data);
-	}
+	async function onSubmit(data: ProfileFormValues) {}
 
 	return (
-		<Card className="bg-muted/80">
+		<Card>
 			<CardContent className="p-8 space-y-6">
 				<div className="flex items-center gap-4 mb-8">
 					<Avatar className="h-16 w-16">

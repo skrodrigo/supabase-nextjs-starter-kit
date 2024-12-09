@@ -7,7 +7,7 @@ import { Separator } from "@/components/ui/separator";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { ArrowLeft, HelpCircle } from "lucide-react";
+import { ArrowLeft, HelpCircle, Loader2 } from "lucide-react";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -26,6 +26,7 @@ const formSchema = z.object({
 export default function LoginForm() {
 	const router = useRouter();
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
@@ -37,6 +38,7 @@ export default function LoginForm() {
 
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
 		try {
+			setIsLoading(true);
 			const { email, password } = values;
 			setErrorMessage(null);
 
@@ -74,6 +76,8 @@ export default function LoginForm() {
 		} catch (error) {
 			console.error("Login error:", error);
 			setErrorMessage(error instanceof Error ? error.message : "Login failed");
+		} finally {
+			setIsLoading(false);
 		}
 	};
 
@@ -161,12 +165,22 @@ export default function LoginForm() {
 									)}
 								</div>
 
-								<Button type="submit" className="w-full h-10 sm:h-12">
-									Login
+								<Button
+									type="submit"
+									className="w-full h-10 sm:h-12"
+									disabled={isLoading}
+								>
+									{isLoading ? (
+										<Loader2 className="mr-2 h-4 w-4 animate-spin" />
+									) : (
+										"Login"
+									)}
 								</Button>
 								{errorMessage && (
-								<p className="text-sm text-red-500 mb-4 text-center">{errorMessage}</p>
-							)}
+									<p className="text-sm text-red-500 mb-4 text-center">
+										{errorMessage}
+									</p>
+								)}
 								<div className="relative my-6 lg:my-8">
 									<div className="absolute inset-0 flex items-center">
 										<Separator className="w-full" />

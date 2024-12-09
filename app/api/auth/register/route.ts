@@ -1,14 +1,8 @@
 "use server";
 
-import { config } from "@/app/config";
 import { prisma } from "@/lib/prisma";
 import { supabase } from "@/lib/supabase/supabase-client";
-import Stripe from "stripe";
-
-const stripe = new Stripe(config.stripe.secretKey as string, {
-	apiVersion: "2024-11-20.acacia",
-	httpClient: Stripe.createFetchHttpClient(),
-});
+import { createStripeCustomer } from "@/services/stripe";
 
 export async function POST(req: Request) {
 	try {
@@ -69,32 +63,9 @@ export async function POST(req: Request) {
 
 		// Criar o cliente no Stripe
 		try {
-			const customer = await stripe.customers.create({
-				email: email,
-				name: name,
-			});
-
-			// Criar uma assinatura gratuita para o usuário
-			const subscription = await stripe.subscriptions.create({
-				customer: customer.id,
-				items: [
-					{
-						price: config.stripe.plans.free.priceId,
-					},
-				],
-			});
-
-			// Atualizar os dados do usuário no Prisma com as informações do Stripe
-			await prisma.user.update({
-				where: {
-					email: email,
-				},
-				data: {
-					stripeCustomerId: customer.id,
-					stripeSubscriptionId: subscription.id,
-					stripeSubscriptionStatus: subscription.status,
-					stripePriceId: config.stripe.plans.free.priceId,
-				},
+			await createStripeCustomer({
+				email,
+				name,
 			});
 		} catch (stripeError) {
 			console.error(

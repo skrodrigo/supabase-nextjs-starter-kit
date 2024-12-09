@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 
-import { ArrowLeft, HelpCircle } from "lucide-react";
+import { ArrowLeft, HelpCircle, Loader2 } from "lucide-react";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -72,7 +72,6 @@ export default function RegisterForm() {
 
 	return (
 		<div className="flex flex-col lg:flex-row min-h-screen">
-			{/* Right side */}
 			<div className="hidden lg:flex lg:flex-1 bg-primary relative rounded-e-3xl">
 				<div className="absolute inset-0 p-6 lg:p-12 flex items-center">
 					<p className="text-primary-foreground text-2xl lg:text-3xl font-light leading-relaxed">
@@ -83,10 +82,8 @@ export default function RegisterForm() {
 				</div>
 			</div>
 
-			{/* Left side */}
 			<div className="flex-1 flex items-center justify-center bg-background p-4 sm:p-6 lg:p-8">
 				<div className="w-full max-w-[440px]">
-					{/* Header */}
 					<div className="flex justify-between items-center mb-8 lg:mb-12">
 						<Button
 							variant="ghost"
@@ -104,7 +101,6 @@ export default function RegisterForm() {
 						</Button>
 					</div>
 
-					{/* Logo */}
 					<div className="flex items-center justify-center gap-2 mb-4 lg:mb-6">
 						<Image
 							src="/boilerplate.png"
@@ -193,6 +189,9 @@ export default function RegisterForm() {
 									className="w-full h-10 sm:h-12"
 									disabled={form.formState.isSubmitting}
 								>
+									{form.formState.isSubmitting ? (
+										<Loader2 className="mr-2 h-4 w-4 animate-spin" />
+									) : null}
 									Criar conta
 								</Button>
 

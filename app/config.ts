@@ -7,13 +7,13 @@ export const config = {
 			free: {
 				priceId: "price_1QRxxSRtVgN95LMdAlVvEeqO",
 				quota: {
-					TASKS: 5,
+					REQUESTS: 5,
 				},
 			},
 			pro: {
 				priceId: "price_1QRxy0RtVgN95LMdUvwB1Qpu",
 				quota: {
-					TASKS: 100,
+					REQUESTS: 100,
 				},
 			},
 		},

@@ -4,7 +4,7 @@ import { config } from "@/app/config";
 import { prisma } from "@/lib/prisma";
 
 export const stripe = new Stripe(config.stripe.secretKey as string, {
-	apiVersion: "2024-11-20.acacia",
+	apiVersion: "2023-10-16",
 	httpClient: Stripe.createFetchHttpClient(),
 });
 
@@ -51,47 +51,26 @@ export const createCheckoutSession = async (
 	userStripeSubscriptionId: string,
 ) => {
 	try {
-		const customer = await createStripeCustomer({
-			email: userEmail,
+		// Verifica se o usuário tem um cliente associado no Stripe
+		const user = await prisma.user.findUnique({
+			where: { id: userId },
+			select: { stripeCustomerId: true },
 		});
 
-		// If user has an existing subscription, create a billing portal session
-		const subscription = await stripe.subscriptionItems.list({
-			subscription: userStripeSubscriptionId as string,
-			limit: 1,
-		});
+		if (!user?.stripeCustomerId) {
+			throw new Error("Stripe customer ID not found for user");
+		}
 
+		// Cria uma sessão do portal de faturamento para o cliente
 		const session = await stripe.billingPortal.sessions.create({
-			customer: customer.id,
+			customer: user.stripeCustomerId,
 			return_url: "http://localhost:3000/dashboard/upgrade",
-			flow_data: {
-				type: "subscription_update_confirm",
-				after_completion: {
-					type: "redirect",
-					redirect: {
-						return_url: "http://localhost:3000/dashboard/upgrade?success=true",
-					},
-				},
-				subscription_update_confirm: {
-					subscription: userStripeSubscriptionId as string,
-					items: [
-						{
-							id: subscription.data[0].id,
-							price: config.stripe.plans.pro.priceId,
-							quantity: 1,
-						},
-					],
-				},
-			},
 		});
 
-		return {
-			url: session.url,
-			subscription,
-		};
+		return { url: session.url };
 	} catch (error) {
-		console.error(error);
-		throw new Error("Error to create checkout session");
+		console.error("Error creating checkout session:", error);
+		throw new Error("Failed to create checkout session");
 	}
 };
 
@@ -136,70 +115,70 @@ export const handleProcessWebhookUpdatedSubscription = async (event: {
 	});
 };
 
-// type Plan = {
-// 	priceId: string;
-// 	quota: {
-// 		TASKS: number;
-// 	};
-// };
+type Plan = {
+	priceId: string;
+	quota: {
+		REQUESTS: number;
+	};
+};
 
-// type Plans = {
-// 	[key: string]: Plan;
-// };
+type Plans = {
+	[key: string]: Plan;
+};
 
-// export const getPlanByPrice = (priceId: string) => {
-// 	const plans: Plans = config.stripe.plans;
+export const getPlanByPrice = (priceId: string) => {
+	const plans: Plans = config.stripe.plans;
 
-// 	const planKey = Object.keys(plans).find(
-// 		(key) => plans[key].priceId === priceId,
-// 	) as keyof Plans | undefined;
+	const planKey = Object.keys(plans).find(
+		(key) => plans[key].priceId === priceId,
+	) as keyof Plans | undefined;
 
-// 	const plan = planKey ? plans[planKey] : null;
+	const plan = planKey ? plans[planKey] : null;
 
-// 	if (!plan) {
-// 		throw new Error(`Plan not found for priceId: ${priceId}`);
-// 	}
+	if (!plan) {
+		throw new Error(`Plan not found for priceId: ${priceId}`);
+	}
 
-// 	return {
-// 		name: planKey,
-// 		quota: plan.quota,
-// 	};
-// };
+	return {
+		name: planKey,
+		quota: plan.quota,
+	};
+};
 
-// export const getUserCurrentPlan = async (userId: string) => {
-// 	const user = await prisma.user.findUnique({
-// 		where: {
-// 			id: userId,
-// 		},
-// 		select: {
-// 			stripePriceId: true,
-// 		},
-// 	});
+export const getUserCurrentPlan = async (userId: string) => {
+	const user = await prisma.user.findUnique({
+		where: {
+			id: userId,
+		},
+		select: {
+			stripePriceId: true,
+		},
+	});
 
-// 	if (!user || !user.stripePriceId) {
-// 		throw new Error("User or user stripePriceId not found");
-// 	}
+	if (!user || !user.stripePriceId) {
+		throw new Error("User or user stripePriceId not found");
+	}
 
-// 	const plan = getPlanByPrice(user.stripePriceId);
+	const plan = getPlanByPrice(user.stripePriceId);
 
-// 	const tasksCount = await prisma.request.count({
-// 		where: {
-// 			userId,
-// 		},
-// 	});
+	const requestsCount = await prisma.request.count({
+		where: {
+			userId,
+		},
+	});
 
-// 	const availableTasks = plan.quota.TASKS;
-// 	const currentTasks = tasksCount;
-// 	const usage = (currentTasks / availableTasks) * 100;
+	const availableRequests = plan.quota.REQUESTS;
+	const currentRequests = requestsCount;
+	const usage = (currentRequests / availableRequests) * 100;
 
-// 	return {
-// 		name: plan.name,
-// 		quota: {
-// 			TASKS: {
-// 				available: availableTasks,
-// 				current: currentTasks,
-// 				usage,
-// 			},
-// 		},
-// 	};
-// };
+	return {
+		name: plan.name,
+		quota: {
+			REQUESTS: {
+				available: availableRequests,
+				current: currentRequests,
+				usage,
+			},
+		},
+	};
+};
