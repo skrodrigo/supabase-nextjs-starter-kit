@@ -54,3 +54,70 @@ export async function deleteAccountAction() {
 		console.error("Erro ao deletar usuário do Supabase:", supabaseError);
 	}
 }
+
+export async function getUserInfosAction() {
+	const cookieStore = cookies();
+	const supabase = createClient(cookieStore);
+	const accessToken = cookieStore.get("sb-access-token")?.value;
+
+	if (!accessToken) {
+		console.error("Token não encontrado");
+		throw new Error("Usuário não autenticado");
+	}
+
+	const { data, error } = await supabase.auth.getUser(accessToken);
+	const userAuth = data?.user;
+
+	const user = await prisma.user.findUnique({
+		where: { id: userAuth?.id },
+		select: {
+			name: true,
+			email: true,
+		},
+	});
+
+	await supabase.auth.updateUser({
+		data: {
+			user_metadata: {
+				name: user?.name,
+				email: user?.email,
+			},
+		},
+	});
+
+	await supabase.auth.refreshSession();
+
+	if (error || !user) {
+		console.error("Erro ao obter usuário:", error);
+		throw new Error("Erro ao obter dados do usuário");
+	}
+
+	return user;
+}
+
+export async function updateUserInfosAction(formData: FormData) {
+	const cookieStore = cookies();
+	const supabase = createClient(cookieStore);
+	const accessToken = cookieStore.get("sb-access-token")?.value;
+
+	if (!accessToken) {
+		console.error("Token não encontrado");
+		throw new Error("Usuário não autenticado");
+	}
+
+	const { data, error } = await supabase.auth.getUser(accessToken);
+	const user = data?.user;
+
+	if (error || !user) {
+		console.error("Erro ao obter usuário:", error);
+		throw new Error("Erro ao obter dados do usuário");
+	}
+
+	const name = formData.get("name") as string;
+
+	// Update Prisma database
+	await prisma.user.update({
+		where: { id: user.id },
+		data: { name },
+	});
+}

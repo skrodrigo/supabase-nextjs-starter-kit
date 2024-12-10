@@ -1,3 +1,5 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 import { Home, Settings, Zap } from "lucide-react";
 import Link from "next/link";

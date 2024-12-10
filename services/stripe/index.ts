@@ -4,7 +4,7 @@ import { config } from "@/app/config";
 import { prisma } from "@/lib/prisma";
 
 export const stripe = new Stripe(config.stripe.secretKey as string, {
-	apiVersion: "2023-10-16",
+	apiVersion: "2024-11-20.acacia",
 	httpClient: Stripe.createFetchHttpClient(),
 });
 
@@ -61,10 +61,34 @@ export const createCheckoutSession = async (
 			throw new Error("Stripe customer ID not found for user");
 		}
 
+		// const subscription = await stripe.subscriptionItems.list({
+		// 	subscription: userStripeSubscriptionId as string,
+		// 	limit: 1,
+		// });
+
 		// Cria uma sessão do portal de faturamento para o cliente
 		const session = await stripe.billingPortal.sessions.create({
 			customer: user.stripeCustomerId,
-			return_url: "http://localhost:3000/dashboard/upgrade",
+			return_url: "http://localhost:3000/dashboard/",
+			// flow_data: {
+			// 	type: "subscription_update_confirm",
+			// 	after_completion: {
+			// 		type: "redirect",
+			// 		redirect: {
+			// 			return_url: "http://localhost:3000/",
+			// 		},
+			// 	},
+			// 	subscription_update_confirm: {
+			// 		subscription: userStripeSubscriptionId,
+			// 		items: [
+			// 			{
+			// 				id: subscription.data[0].id,
+			// 				quantity: 1,
+			// 				price: config.stripe.plans.pro.priceId,
+			// 			},
+			// 		],
+			// 	},
+			// },
 		});
 
 		return { url: session.url };

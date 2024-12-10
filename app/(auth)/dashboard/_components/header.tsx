@@ -1,3 +1,5 @@
+"use client";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -26,21 +28,37 @@ import {
 	Zap,
 } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { getUserInfosAction } from "../settings/actions";
 
 const sidebarItems = [{ icon: Home, label: "Home", href: "/dashboard" }];
 
 export function Header() {
-
 	const router = useRouter();
-
-	const [user] = useState({
-		name: "Rodrigo Carvalho",
-		email: "rodrigoa0987@gmail.com",
+	const [open, setOpen] = useState(false);
+	const [user, setUser] = useState<{
+		name: string;
+		email: string;
+	}>({
+		name: "",
+		email: "",
 	});
 
-	const [open, setOpen] = useState(false);
+	useEffect(() => {
+		async function loadUserData() {
+			try {
+				const userData = await getUserInfosAction();
+				setUser({
+					name: userData.name || "",
+					email: userData.email || "",
+				});
+			} catch (error) {
+				console.error("Error loading user data:", error);
+			}
+		}
+		loadUserData();
+	}, []);
 
 	const handleLogout = async () => {
 		const response = await fetch("/api/auth/logout", {
@@ -108,8 +126,14 @@ export function Header() {
 					<DropdownMenuTrigger asChild>
 						<Button variant="ghost" className="relative h-10 w-10 rounded-full">
 							<Avatar className="h-10 w-10">
-								<AvatarImage src="/avatar.png" alt={user.name} />
-								<AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+								<AvatarFallback>
+									{user.name
+										.split(" ")
+										.map((n) => n[0])
+										.join("")
+										.slice(0, 2)
+										.toUpperCase()}
+								</AvatarFallback>
 							</Avatar>
 						</Button>
 					</DropdownMenuTrigger>
