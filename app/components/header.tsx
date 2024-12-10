@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
-import { Menu } from "lucide-react";
+import { ArrowRight, Menu } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -65,7 +65,8 @@ export default function Header() {
 									</Link>
 									<Link href="/login">
 										<Button variant="default" className="w-full">
-											Login
+											Começar Agora
+											<ArrowRight className="h-4 w-4" />
 										</Button>
 									</Link>
 								</nav>
@@ -77,7 +78,10 @@ export default function Header() {
 							<Button variant="link">Registrar</Button>
 						</Link>
 						<Link href="/login">
-							<Button variant="default">Login</Button>
+							<Button variant="default">
+								Começar Agora
+								<ArrowRight className="h-4 w-4" />
+							</Button>
 						</Link>
 					</div>
 				</div>

@@ -24,7 +24,7 @@ export function Footer() {
 						<ArrowUp className="h-4 w-4" />
 					</Button>
 					<p className="text-sm text-muted-foreground text-center">
-						© {new Date().getFullYear()} Use Link. All rights reserved.
+						© {new Date().getFullYear()} Boilerplate. All rights reserved.
 					</p>
 				</div>
 			</div>

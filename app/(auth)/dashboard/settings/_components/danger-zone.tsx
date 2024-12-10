@@ -29,13 +29,13 @@ export const DangerZone = () => {
 							<DialogHeader>
 								<DialogTitle>Tem certeza?</DialogTitle>
 								<DialogDescription>
-									Esta ação não pode ser desfeita.(ainda está em teste, ou seja,
-									apague os cookies por sua conta própria).
+									Esta ação não pode ser desfeita. (ainda está em teste,
+									provavelmente, apague seus cookies por sua conta própria).
 								</DialogDescription>
 							</DialogHeader>
 							<form action={deleteAccountAction} className="space-y-4">
 								<Button type="submit" variant="destructive" className="w-full">
-									Sim, excluir minha conta
+									Sim, excluir minha conta!
 								</Button>
 							</form>
 						</DialogContent>

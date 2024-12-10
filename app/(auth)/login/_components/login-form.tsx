@@ -86,9 +86,9 @@ export default function LoginForm() {
 			<div className="hidden lg:flex lg:flex-1 bg-primary relative rounded-e-3xl">
 				<div className="absolute inset-0 p-6 lg:p-12 flex items-center">
 					<p className="text-primary-foreground text-2xl lg:text-3xl font-light leading-relaxed">
-						Transforme qualquer link compartilhado em uma oportunidade
-						estratégica para coletar leads valiosos e expandir sua audiência com
-						Use Link.
+						Acelere seu desenvolvimento com nosso Boilerplate Next.js. Estrutura
+						sólida, componentes reutilizáveis e integração perfeita para
+						projetos eficientes e escaláveis.
 					</p>
 				</div>
 			</div>
@@ -127,7 +127,7 @@ export default function LoginForm() {
 					<Card className="border-0 shadow-none items-center justify-center flex flex-col">
 						<CardHeader className="p-0">
 							<CardTitle className="text-sm sm:text-base font-normal text-muted-foreground">
-								Digite seu e-mail abaixo para continuar
+								Entre para começar a usar o Boilerplate
 							</CardTitle>
 						</CardHeader>
 						<CardContent className="p-0 mt-6 lg:mt-8 w-full">
@@ -173,7 +173,7 @@ export default function LoginForm() {
 									{isLoading ? (
 										<Loader2 className="mr-2 h-4 w-4 animate-spin" />
 									) : (
-										"Login"
+										"Entrar"
 									)}
 								</Button>
 								{errorMessage && (
@@ -187,7 +187,7 @@ export default function LoginForm() {
 									</div>
 								</div>
 								<p className="text-xs text-center text-muted-foreground pt-4 lg:mt-8">
-									Ao se inscrever, você concorda com os{" "}
+									Ao entrar, você concorda com nossos{" "}
 									<Link href="#" className="text-primary hover:underline">
 										Termos de Uso
 									</Link>{" "}
@@ -201,7 +201,7 @@ export default function LoginForm() {
 					</Card>
 
 					<p className="text-xs text-center text-muted-foreground mt-6 lg:mt-8">
-						2024 Use Link. All rights reserved.
+						2024 Boilerplate Next.js. Todos os direitos reservados.
 					</p>
 				</div>
 			</div>

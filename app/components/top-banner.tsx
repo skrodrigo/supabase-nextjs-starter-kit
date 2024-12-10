@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 export function TopBanner() {
@@ -10,10 +9,10 @@ export function TopBanner() {
 					<div className="flex flex-1 items-start justify-start">
 						<p className="text-sm text-primary-foreground">
 							<span className="hidden md:inline">
-								🔥 Aproveite 50% de desconto no plano anual por tempo limitado.
+								🔥 Aproveite 50% de desconto no plano PRO por tempo limitado.
 							</span>
 							<span className="inline md:hidden">
-								🔥 50% de desconto no plano anual.
+								🔥 50% de desconto no plano PRO.
 							</span>
 						</p>
 					</div>
@@ -27,7 +26,6 @@ export function TopBanner() {
 							<Link href="/pricing" className="flex items-center gap-x-1">
 								<span className="hidden md:inline">Ver planos</span>
 								<span className="inline md:hidden">Ver</span>
-								<ArrowRight className="h-4 w-4" />
 							</Link>
 						</Button>
 					</div>

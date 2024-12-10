@@ -1,43 +1,43 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { BarChart, Bell, Globe, Layout, Link2, Mail } from "lucide-react";
+import { Code, Layers, Palette, Rocket, Shield, Zap } from "lucide-react";
 
 const features = [
 	{
-		icon: Mail,
-		title: "Captação de Leads Sem Esforço",
+		icon: Code,
+		title: "Código Limpo e Escalável",
 		description:
-			"Colete e-mails automaticamente com portais de link personalizados, projetados para aprimorar seus esforços de geração de leads de forma integrada.",
+			"Estrutura de código organizada e modular, facilitando a manutenção e expansão do seu projeto conforme ele cresce.",
 	},
 	{
-		icon: Globe,
-		title: "Distribuição Global de Links",
+		icon: Palette,
+		title: "Design Responsivo",
 		description:
-			"Compartilhe seus links mundialmente e alcance um público mais amplo enquanto captura informações valiosas de leads.",
+			"Interface adaptável a todos os dispositivos, garantindo uma experiência de usuário consistente em desktops, tablets e smartphones.",
 	},
 	{
-		icon: BarChart,
-		title: "Análises em Tempo Real",
+		icon: Shield,
+		title: "Autenticação Segura",
 		description:
-			"Obtenha insights sobre o desempenho do seu link com análises em tempo real, rastreando cliques, conversões e engajamento do público.",
+			"Sistema de autenticação robusto implementado, protegendo os dados dos usuários e garantindo acesso seguro às funcionalidades.",
 	},
 	{
-		icon: Bell,
-		title: "Notificações Instantâneas",
+		icon: Zap,
+		title: "Performance Otimizada",
 		description:
-			"Receba alertas imediatos sobre novas capturas de leads, possibilitando um rápido acompanhamento e engajamento diretamente do Discord, Slack ou via webhook.",
+			"Carregamento rápido e eficiente, proporcionando uma experiência fluida aos usuários, mesmo em conexões mais lentas.",
 	},
 	{
-		icon: Layout,
-		title: "Formulários Personalizáveis",
+		icon: Layers,
+		title: "Componentes Reutilizáveis",
 		description:
-			"Personalize seus formulários de captura de e-mail para se adequar à identidade visual da sua marca, proporcionando uma experiência de usuário consistente.",
+			"Biblioteca de componentes prontos para uso, acelerando o desenvolvimento e mantendo a consistência visual em todo o projeto.",
 	},
 	{
-		icon: Link2,
-		title: "Compatível com Integrações",
+		icon: Rocket,
+		title: "Fácil Deployment",
 		description:
-			"Integre-se de maneira perfeita com seu stack de marketing existente, enriquecendo suas plataformas de CRM e e-mail com novos leads obtidos a partir dos seus links.",
+			"Configuração otimizada para deploy rápido em diversas plataformas, permitindo que seu projeto esteja online em minutos.",
 	},
 ];
 
@@ -46,10 +46,10 @@ export function Features() {
 		<section className="container mx-auto px-4 py-24">
 			<div className="text-center mb-16">
 				<Badge variant="secondary" className="mb-2">
-					Explore Mais Recursos
+					Recursos Poderosos
 				</Badge>
 				<h2 className="text-3xl font-bold mb-4">
-					Descubra todo o potencial do Use Link
+					Acelere seu Desenvolvimento com Nosso Boilerplate
 				</h2>
 			</div>
 

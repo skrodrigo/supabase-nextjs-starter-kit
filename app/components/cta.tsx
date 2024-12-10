@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 
 export function CTA() {
@@ -16,16 +17,17 @@ export function CTA() {
 				/>
 
 				<h2 className="mx-auto max-w-2xl text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-					Pronto para transformar seus links em máquinas de leads?
+					Pronto para acelerar seu desenvolvimento com esse Boilerplate?
 				</h2>
 				<p className="mx-auto mt-6 max-w-xl text-lg text-foreground">
-					Comece agora mesmo a expandir sua base de leads com o Use Link.
-					Cadastre-se gratuitamente e descubra o poder da geração inteligente de
-					leads.
+					Comece agora mesmo a construir aplicações web modernas e escaláveis.
+					Esse Boilerplate oferece uma base sólida com as melhores práticas e
+					tecnologias atuais.
 				</p>
 				<div className="mt-10">
 					<Button size="lg" variant="default" className="font-semibold">
-						Começar gratuitamente
+						Começar Agora
+						<ArrowRight className="h-4 w-4" />
 					</Button>
 				</div>
 			</div>

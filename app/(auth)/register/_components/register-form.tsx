@@ -75,9 +75,9 @@ export default function RegisterForm() {
 			<div className="hidden lg:flex lg:flex-1 bg-primary relative rounded-e-3xl">
 				<div className="absolute inset-0 p-6 lg:p-12 flex items-center">
 					<p className="text-primary-foreground text-2xl lg:text-3xl font-light leading-relaxed">
-						Transforme qualquer link compartilhado em uma oportunidade
-						estratégica para coletar leads valiosos e expandir sua audiência com
-						Use Link.
+						Comece a construir seu próximo projeto em minutos com nosso
+						Boilerplate. Economize tempo e foque no que realmente importa: sua
+						lógica de negócio.
 					</p>
 				</div>
 			</div>
@@ -116,7 +116,7 @@ export default function RegisterForm() {
 					<Card className="border-0 shadow-none items-center justify-center flex flex-col">
 						<CardHeader className="p-0">
 							<CardTitle className="text-sm sm:text-base font-normal text-muted-foreground">
-								Crie sua conta para continuar
+								Crie sua conta para começar
 							</CardTitle>
 						</CardHeader>
 						<CardContent className="p-0 mt-6 lg:mt-8">

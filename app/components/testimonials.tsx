@@ -4,21 +4,21 @@ import { Card, CardContent } from "@/components/ui/card";
 const testimonials = [
 	{
 		content:
-			"Cardano Feed relies on NotifyLog for real-time event tracking across our global cryptocurrency news network, enhancing our responsiveness and user engagement.",
-		author: "Otavio Lima",
-		role: "CEO at Cardano Feed",
+			"Este boilerplate acelerou significativamente nosso desenvolvimento. A estrutura bem organizada e os componentes pré-construídos nos permitiram focar nas funcionalidades únicas do nosso produto.",
+		author: "Ana Silva",
+		role: "CTO da TechInova",
 	},
 	{
 		content:
-			"NotifyLog streamlines SaaS monitoring at Digivets, offering a compact solution for tracking deployments, user interactions, and system alerts. Its a game changer.",
-		author: "Felipe Barcelos",
-		role: "CTO at Digivets",
+			"A integração de autenticação e dashboard já prontos economizou semanas de desenvolvimento. É incrível como pudemos personalizar tudo para nossa marca tão facilmente.",
+		author: "Carlos Mendes",
+		role: "Líder de Projeto na WebSolutions",
 	},
 	{
 		content:
-			"As a dynamic agency, NotifyLog is our go-to tool for centralized event management, allowing us to deliver timely updates and insights to our clients with ease.",
-		author: "William Rulli",
-		role: "CEO at Will Hack",
+			"Como startup, tempo é crucial. Este boilerplate nos deu uma vantagem competitiva, pudemos personalizar tudo para nossa marca, permitindo lançar nosso MVP muito mais rápido do que imaginávamos.",
+		author: "Luana Costa",
+		role: "Fundadora da QuickStart",
 	},
 ];
 
@@ -27,13 +27,14 @@ export function Testimonials() {
 		<section className="container mx-auto px-4 py-24">
 			<div className="text-center mb-16">
 				<Badge variant="secondary" className="mb-2">
-					Testimonials
+					Depoimentos
 				</Badge>
 				<h2 className="text-3xl font-bold mb-4">
-					Our Delighted <span className="text-muted-foreground">Clients</span>
+					Desenvolvedores{" "}
+					<span className="text-muted-foreground">Satisfeitos</span>
 				</h2>
 				<p className="text-muted-foreground">
-					We are not done yet, check these out.
+					Veja como nosso boilerplate está transformando projetos
 				</p>
 			</div>
 
@@ -45,7 +46,7 @@ export function Testimonials() {
 					>
 						<CardContent className="pt-6">
 							<p className="mb-6 text-muted-foreground">
-								{testimonial.content}
+								"{testimonial.content}"
 							</p>
 							<div>
 								<p className="font-semibold">{testimonial.author}</p>

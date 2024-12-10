@@ -7,42 +7,39 @@ import {
 
 const faqs = [
 	{
-		question: "O que é Use Link?",
+		question: "O que é este Boilerplate?",
 		answer:
-			"Use Link é uma plataforma que permite transformar seus links em ferramentas de captação de leads.",
+			"Este Boilerplate é uma estrutura inicial completa para projetos web modernos, incluindo landing page, autenticação e dashboard.",
 	},
 	{
-		question: "Como o Use Link funciona?",
+		question: "Quais tecnologias são utilizadas?",
 		answer:
-			"O Use Link cria uma camada de captura de leads sobre seus links compartilhados.",
+			"Utilizamos Next.js, React, TypeScript, Tailwind CSS e outras bibliotecas modernas para garantir uma base sólida e escalável.",
 	},
 	{
-		question: "Posso personalizar o formulário de captura de e-mail?",
+		question: "O Boilerplate é personalizável?",
 		answer:
-			"Sim, você pode personalizar completamente o formulário de acordo com sua marca.",
+			"Sim, todos os componentes e estilos são facilmente customizáveis para se adequar às necessidades específicas do seu projeto.",
 	},
 	{
-		question: "O que acontece com os e-mails coletados?",
+		question: "Como posso começar a usar o Boilerplate?",
 		answer:
-			"Os e-mails são armazenados com segurança e podem ser exportados ou integrados com suas ferramentas de marketing.",
+			"Basta clonar o repositório, instalar as dependências e começar a desenvolver. Temos uma documentação detalhada para guiá-lo.",
 	},
 	{
-		question: "O Use Link se integra com outras plataformas?",
+		question: "O Boilerplate inclui recursos de autenticação?",
 		answer:
-			"Sim, oferecemos integrações com as principais ferramentas de marketing e CRM.",
+			"Sim, oferecemos um sistema de autenticação completo e seguro, pronto para uso em produção.",
 	},
 	{
-		question: "Existe um limite para o número de links que posso criar?",
+		question: "Posso usar este Boilerplate para projetos comerciais?",
 		answer:
-			"O limite depende do seu plano. Confira nossa página de preços para mais detalhes.",
+			"Absolutamente! Este Boilerplate é open-source e pode ser usado em projetos pessoais ou comerciais.",
 	},
 	{
-		question: "Como posso acompanhar o desempenho dos meus links?",
-		answer: "Oferecemos um dashboard completo com análises em tempo real.",
-	},
-	{
-		question: "Como eu começo a usar o Use Link?",
-		answer: "Basta se registrar gratuitamente e começar a criar seus links.",
+		question: "Como o dashboard está estruturado?",
+		answer:
+			"O dashboard inclui layouts responsivos, componentes reutilizáveis e exemplos de integração de dados.",
 	},
 ];
 
@@ -52,7 +49,7 @@ export function FAQ() {
 			<div className="max-w-4xl flex flex-col mx-auto md:flex-row md:items-center md:justify-between gap-12">
 				<div className="mb-12">
 					<h2 className="text-3xl font-bold mb-6 md:mb-0">
-						Perguntas Frequentes: Suas Dúvidas Esclarecidas
+						Perguntas Frequentes: Tudo Sobre o Boilerplate
 					</h2>
 				</div>
 				<Accordion type="single" collapsible className="w-full">
