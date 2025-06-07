@@ -1,66 +1,79 @@
-import {
-	Accordion,
-	AccordionContent,
-	AccordionItem,
-	AccordionTrigger,
-} from "@/components/ui/accordion";
+'use client'
 
-const faqs = [
-	{
-		question: "O que é este Boilerplate?",
-		answer:
-			"Este Boilerplate é uma estrutura inicial completa para projetos web modernos, incluindo landing page, autenticação e dashboard.",
-	},
-	{
-		question: "Quais tecnologias são utilizadas?",
-		answer:
-			"Utilizamos Next.js, React, TypeScript, Tailwind CSS e outras bibliotecas modernas para garantir uma base sólida e escalável.",
-	},
-	{
-		question: "O Boilerplate é personalizável?",
-		answer:
-			"Sim, todos os componentes e estilos são facilmente customizáveis para se adequar às necessidades específicas do seu projeto.",
-	},
-	{
-		question: "Como posso começar a usar o Boilerplate?",
-		answer:
-			"Basta clonar o repositório, instalar as dependências e começar a desenvolver. Temos uma documentação detalhada para guiá-lo.",
-	},
-	{
-		question: "O Boilerplate inclui recursos de autenticação?",
-		answer:
-			"Sim, oferecemos um sistema de autenticação completo e seguro, pronto para uso em produção.",
-	},
-	{
-		question: "Posso usar este Boilerplate para projetos comerciais?",
-		answer:
-			"Absolutamente! Este Boilerplate é open-source e pode ser usado em projetos pessoais ou comerciais.",
-	},
-	{
-		question: "Como o dashboard está estruturado?",
-		answer:
-			"O dashboard inclui layouts responsivos, componentes reutilizáveis e exemplos de integração de dados.",
-	},
-];
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
+import Link from 'next/link'
+import { Badge } from "@/components/ui/badge";
 
-export function FAQ() {
-	return (
-		<section className="container mx-auto px-4 py-24">
-			<div className="max-w-4xl flex flex-col mx-auto md:flex-row md:items-center md:justify-between gap-12">
-				<div className="mb-12">
-					<h2 className="text-3xl font-bold mb-6 md:mb-0">
-						Perguntas Frequentes: Tudo Sobre o Boilerplate
-					</h2>
-				</div>
-				<Accordion type="single" collapsible className="w-full">
-					{faqs.map((faq, index) => (
-						<AccordionItem key={faq.question} value={`item-${index}`}>
-							<AccordionTrigger>{faq.question}</AccordionTrigger>
-							<AccordionContent>{faq.answer}</AccordionContent>
-						</AccordionItem>
-					))}
-				</Accordion>
-			</div>
-		</section>
-	);
+export default function FAQsTwo() {
+    const faqItems = [
+        {
+            id: 'item-1',
+            question: 'How long does shipping take?',
+            answer: 'Standard shipping takes 3-5 business days, depending on your location. Express shipping options are available at checkout for 1-2 business day delivery.',
+        },
+        {
+            id: 'item-2',
+            question: 'What payment methods do you accept?',
+            answer: 'We accept all major credit cards (Visa, Mastercard, American Express), PayPal, Apple Pay, and Google Pay. For enterprise customers, we also offer invoicing options.',
+        },
+        {
+            id: 'item-3',
+            question: 'Can I change or cancel my order?',
+            answer: 'You can modify or cancel your order within 1 hour of placing it. After this window, please contact our customer support team who will assist you with any changes.',
+        },
+        {
+            id: 'item-4',
+            question: 'Do you ship internationally?',
+            answer: "Yes, we ship to over 50 countries worldwide. International shipping typically takes 7-14 business days. Additional customs fees may apply depending on your country's import regulations.",
+        },
+        {
+            id: 'item-5',
+            question: 'What is your return policy?',
+            answer: 'We offer a 30-day return policy for most items. Products must be in original condition with tags attached. Some specialty items may have different return terms, which will be noted on the product page.',
+        },
+    ]
+
+    return (
+        <section className="py-10">
+            <div className="mx-auto max-w-7xl px-4 md:px-6">
+                <div className="flex justify-center mb-8">
+                    <Badge variant="secondary" className="mb-2 border border-zinc-200">
+                        FAQ
+                    </Badge>
+                </div>
+                <div className="mx-auto max-w-xl space-y-4 text-center">
+                    <h2 className="text-balance text-3xl font-semibold md:text-4xl">FAQ</h2>
+                    <p className="text-muted-foreground">Veja as perguntas mais frequentes sobre o boilerplate.</p>
+                </div>
+
+                <div className="mx-auto mt-12 max-w-7xl">
+                    <Accordion
+                        type="single"
+                        collapsible
+                        className="w-full">
+                        {faqItems.map((item) => (
+                            <AccordionItem
+                                key={item.id}
+                                value={item.id}
+                                className="border">
+                                <AccordionTrigger className="cursor-pointer text-base hover:no-underline">{item.question}</AccordionTrigger>
+                                <AccordionContent>
+                                    <p className="text-base">{item.answer}</p>
+                                </AccordionContent>
+                            </AccordionItem>
+                        ))}
+                    </Accordion>
+
+                    <p className="text-muted-foreground mt-6 px-8">
+                        Can't find what you're looking for? Contact our{' '}
+                        <Link
+                            href="#"
+                            className="text-primary font-medium hover:underline">
+                            customer support team
+                        </Link>
+                    </p>
+                </div>
+            </div>
+        </section>
+    )
 }

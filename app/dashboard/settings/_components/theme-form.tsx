@@ -38,13 +38,13 @@ export function ThemeForm() {
 						<div className="w-full max-w-md mx-auto">
 							<Label className="[&:has([data-state=checked])>div]:border-primary block w-full">
 								<RadioGroupItem value="light" className="sr-only" />
-								<div className="items-center rounded-md border-2 border-muted p-1 hover:border-accent transition-colors">
+								<div className="items-center rounded-lg border-2 border-muted p-1 hover:border-accent transition-colors">
 									<div className="space-y-2 rounded-sm bg-[#ecedef] p-2">
-										<div className="space-y-2 rounded-md bg-white p-2 shadow-sm">
+										<div className="space-y-2 rounded-lg bg-white p-2">
 											<div className="h-2 w-[80%] rounded-lg bg-[#ecedef]" />
 											<div className="h-2 w-full rounded-lg bg-[#ecedef]" />
 										</div>
-										<div className="flex items-center space-x-2 rounded-md bg-white p-2 shadow-sm">
+										<div className="flex items-center space-x-2 rounded-lg bg-white p-2">
 											<Sun className="h-4 w-4 text-muted-foreground flex-shrink-0" />
 											<div className="h-2 w-full rounded-lg bg-[#ecedef]" />
 										</div>
@@ -59,13 +59,13 @@ export function ThemeForm() {
 						<div className="w-full max-w-md mx-auto">
 							<Label className="[&:has([data-state=checked])>div]:border-primary block w-full">
 								<RadioGroupItem value="dark" className="sr-only" />
-								<div className="items-center rounded-md border-2 border-muted bg-popover p-1 hover:bg-accent hover:text-accent-foreground transition-colors">
+								<div className="items-center rounded-lg border-2 border-muted bg-popover p-1 hover:bg-accent hover:text-accent-foreground transition-colors">
 									<div className="space-y-2 rounded-sm bg-zinc-950 p-2">
-										<div className="space-y-2 rounded-md bg-zinc-800 p-2 shadow-sm">
+										<div className="space-y-2 rounded-lg bg-zinc-800 p-2">
 											<div className="h-2 w-[80%] rounded-lg bg-zinc-400" />
 											<div className="h-2 w-full rounded-lg bg-zinc-400" />
 										</div>
-										<div className="flex items-center space-x-2 rounded-md bg-zinc-800 p-2 shadow-sm">
+										<div className="flex items-center space-x-2 rounded-lg bg-zinc-800 p-2">
 											<Moon className="h-4 w-4 text-zinc-400 flex-shrink-0" />
 											<div className="h-2 w-full rounded-lg bg-zinc-400" />
 										</div>

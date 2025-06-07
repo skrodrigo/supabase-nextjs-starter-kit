@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 export function Hero() {
 	return (
 		<section className="flex flex-col items-center justify-center px-4 py-24 text-center">
-			<div className="container max-w-4xl">
+			<div className="container max-w-7xl">
 				<h1 className="mb-6 text-4xl font-black tracking-tight sm:text-5xl md:text-6xl">
 					Acelere seu Desenvolvimento com esse Boilerplate Completo
 				</h1>

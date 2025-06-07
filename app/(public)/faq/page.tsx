@@ -1,6 +1,5 @@
-import { FAQ } from "@/app/components/faq";
-import { Footer } from "@/app/components/footer";
-import Header from "@/app/components/header";
+import FAQsTwo from "@/app/components/faq";
+import FooterSection from "@/app/components/footer";
 import { TopBanner } from "@/app/components/top-banner";
 import { SubHeader } from "../_components/sub-header";
 
@@ -12,13 +11,11 @@ export const metadata = {
 export default function FAQPage() {
 	return (
 		<div>
-			<TopBanner />
-			<Header />
 			<SubHeader />
 			<main className="max-w-7xl mx-auto">
-				<FAQ />
+				<FAQsTwo />
 			</main>
-			<Footer />
+			<FooterSection />
 		</div>
 	);
 }

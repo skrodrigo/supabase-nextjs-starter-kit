@@ -43,19 +43,20 @@ const features = [
 
 export function Features() {
 	return (
-		<section className="container mx-auto px-4 py-24">
-			<div className="text-center mb-16">
-				<Badge variant="secondary" className="mb-2">
-					Recursos Poderosos
+		<section className="container mx-auto px-4 py-24 max-w-7xl">
+			<div className="flex justify-center mb-8">
+				<Badge variant="secondary" className="mb-2 border border-zinc-200">
+					Funcionalidades
 				</Badge>
-				<h2 className="text-3xl font-bold mb-4">
-					Acelere seu Desenvolvimento com Nosso Boilerplate
-				</h2>
+			</div>
+			<div className="text-center space-y-4 mb-12">
+				<h2 className="text-balance text-3xl font-semibold md:text-4xl">Recursos Poderosos</h2>
+				<p className="text-muted-foreground">Acelere seu desenvolvimento com recursos avançados e prontos para uso.</p>
 			</div>
 
 			<div className="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
 				{features.map((feature) => (
-					<Card key={feature.title} className="border-none shadow-none">
+					<Card key={feature.title} className="border-none">
 						<CardContent className="pt-6">
 							<div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
 								<feature.icon className="h-6 w-6 text-primary" />

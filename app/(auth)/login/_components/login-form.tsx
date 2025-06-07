@@ -124,7 +124,7 @@ export default function LoginForm() {
 						/>
 					</div>
 
-					<Card className="border-0 shadow-none items-center justify-center flex flex-col">
+					<Card className="border-0 items-center justify-center flex flex-col">
 						<CardHeader className="p-0">
 							<CardTitle className="text-sm sm:text-base font-normal text-muted-foreground">
 								Entre para começar a usar o Boilerplate

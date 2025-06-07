@@ -1,9 +1,9 @@
-import { FAQ } from "@/app/components/faq";
-import { Footer } from "@/app/components/footer";
-import Header from "@/app/components/header";
 import { Pricing } from "@/app/components/pricing";
 import { Testimonials } from "@/app/components/testimonials";
 import { SubHeader } from "../_components/sub-header";
+import FooterSection from "@/app/components/footer";
+import FAQsTwo from "@/app/components/faq";
+import { TopBanner } from "@/app/components/top-banner";
 
 export const metadata = {
 	title: "Boilerplate | Pricing",
@@ -13,14 +13,14 @@ export const metadata = {
 export default function PricingPage() {
 	return (
 		<div>
-			<Header />
+			<TopBanner />
 			<SubHeader />
 			<main className="max-w-7xl mx-auto">
 				<Pricing />
 				<Testimonials />
-				<FAQ />
+				<FAQsTwo />
 			</main>
-			<Footer />
+			<FooterSection />
 		</div>
 	);
 }
